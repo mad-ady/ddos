@@ -1,0 +1,11 @@
+git clone https://github.com/jedisct1/dnsblast
+cd dnsblast
+make
+sudo cp dnsblast /usr/local/bin
+
+#send 100 queries
+dnsblast 127.0.0.1 100
+#send 100 queries with 10pps
+dnsblast 127.0.0.1 100 10 
+#send malformed dns packets
+dnsblast fuzz 127.0.0.1 100

