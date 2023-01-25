@@ -1,7 +1,7 @@
 # hping3
 
 #TCP syn flood, 3kpps, ~110kbps
-sudo hping3 -i u1000 -S -p 80 -L 0 80.97.238.77
+sudo hping3 -i u1000 -S -p 80 -L 0 127.0.0.1
 
 #TCP syn flood, 5kpps, ~220kbps
 sudo hping3 -i u500 -S -p 80 -L 0 127.0.0.1
