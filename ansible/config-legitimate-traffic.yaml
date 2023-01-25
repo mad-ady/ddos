@@ -1,0 +1,57 @@
+# example usage:
+
+- hosts: 'ddos-legitimate'
+  become: yes
+
+  tasks:
+    - name: 'Add victim.example.com to /etc/hosts'
+      blockinfile:
+        path: /etc/hosts
+        block: |
+          192.0.2.1 victim.example.com
+
+    - name: 'Create the legitimate traffic script'
+      ansible.builtin.file:
+        path: /usr/local/bin/ddos-legitimate-traffic.sh
+        state: touch
+        mode: '0755'
+ 
+    - name: 'Write the script file'
+      blockinfile:
+        path: /usr/local/bin/ddos-legitimate-traffic.sh
+        block: |
+          #!/bin/bash
+          logger -s -t $0 "Starting legitimate traffic generator to victim.example.com"
+          tmpdir=/dev/shm/dump
+          mkdir $tmpdir
+          while :
+            do
+              dig @192.0.2.1 victim.example.com +timeout=1
+              cd $tmpdir
+              rm -rf $tmpdir/*
+              pages=('http://victim.example.com/?product=beanie' 'http://victim.example.com/' 'http://victim.example.com/?product=album' 'http://victim.example.com/?product=logo-collection' 'http://victim.example.com/?product=polo' 'http://victim.example.com/?paged=2' 'http://victim.example.com/?product=wordpress-pennant' 'http://victim.example.com/?product=sunglasses' 'http://victim.example.com/?page_id=7' 'http://victim.example.com/?page_id=8')
+              shuffledpages=( $(shuf -e "${pages[@]}") )
+              for page in ${shuffledpages[@]}; do
+                 wget --level 1 --page-requisites --adjust-extension --domains victim.example.com --no-parent -erobots=off "$page"
+                 sleep 2
+              done
+           done
+
+    - name: 'Create a service to run legimitate traffic'
+      ansible.builtin.file:
+        path: /etc/systemd/system/ddos-legitimate-traffic.service
+        state: touch
+        mode: '0644'
+    
+    - name: 'Write the service file'
+      blockinfile:
+        path: /etc/systemd/system/ddos-legitimate-traffic.service
+        block: |
+          [Unit]
+          Description=DDoS Demo legitimate traffic to victim.example.com
+          [Service]
+          Type=simple
+          ExecStart=/bin/bash /usr/local/bin/ddos-legitimate-traffic.sh
+          
+
+        

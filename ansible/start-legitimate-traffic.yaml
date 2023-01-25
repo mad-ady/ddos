@@ -1,0 +1,10 @@
+# example usage:
+
+- hosts: 'ddos-legitimate'
+  become: yes
+
+  tasks:
+    - name: 'Start legitimate traffic'
+      ansible.builtin.systemd:
+        state: started
+        name: ddos-legitimate-traffic

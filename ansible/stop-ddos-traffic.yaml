@@ -1,0 +1,12 @@
+# example usage:
+
+- hosts: 'ddos-attackers'
+  become: yes
+
+  tasks:
+    - name: 'Stop syn flood'
+      shell: /usr/local/bin/stop-syn-flood.sh
+    - name: 'Stop dns flood'
+      shell: /usr/local/bin/stop-dns-flood.sh
+    - name: 'Stop udp flood'
+      shell: /usr/local/bin/stop-udp-flood.sh

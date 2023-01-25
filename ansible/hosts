@@ -1,0 +1,26 @@
+# host definition
+
+iq01
+iq04
+iq03
+iq05
+iq06
+iq09
+iq12
+iq20
+iq21
+iq24
+
+[ddos-attackers]
+iq12
+iq20
+
+[ddos-legitimate]
+iq01
+iq04
+iq03
+iq05
+iq06
+iq09
+
+
